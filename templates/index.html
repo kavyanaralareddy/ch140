@@ -1,142 +1,129 @@
-<!DOCTYPE html>
+<!-- there is a starter templte for bootstrap -->
+<!--template starts-->
+<!doctype html>
 <html lang="en">
-
-<head>
-    <title>Digi Diary</title>
+  <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    crossorigin="anonymous">
+
+    <!--Style sheet link-->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for('static', filename='index.js') }}"></script>
-</head>
 
-<body>
-        
-    <div
-        style="color: #FFF; background-image: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.9) 100%),url(./static/assets/bg/bg-emoji.png); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <!--Jquery CDN google-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
 
-        <!--App Name-->
-        <div class=" container-fluid text-center"
-            style="background-color: #4C56AF; font-family: cursive; min-height: 8vh;">
-            <h1>Digi Diary</h1>
-        </div>
+    <title>Sentiment Analysis</title>
+  </head>
+  <body>
 
-        <!--Day and Date-->
-        <div class="container-fluid text-left"
-            style="background-color: #263088; font-family: cursive; min-height: 3vh;">
-            <p id="display_date">Date</p>
-        </div>
+    <div style="height: 300px ;background-color: #2C313E">
+    
+      <div class="row">
+        <div class="col-9"><h1 style="padding: 30px 10px; color:white; font-family:cursive">&nbspCUSTOMER REVIEW</h1></div>
+        <div class="col" style="padding-top: 40px;"><h4 id="date" style="color:white; font-family:cursive; font-size:medium;">Date : </h4></div>
+      </div>
 
-        <div class="container-fluid text-right mb-2" style="width: 100%; min-height: 3vh;" id="google_translate_div">
-        </div>
+      <div class="row">
+        <div class="col"><img src = "static\assets\products\mobile.png" alt = "This is an image of a Smart phone" width = 250 height = 300 style = "border:none; margin-left: 40px; border-top-left-radius: 30px; border-top-right-radius: 30px;"></div>
+        <div class="col"><img src = "static\assets\products\camera.png" alt = "This is an image of a Digital camera" width = 250 height = 300 style = "border:none; margin-left: 40px; border-top-left-radius: 30px; border-top-right-radius: 30px;"></div>
+        <div class="col"><img src = "static\assets\products\headphones.png" alt = "This is an image of a Headphone" width = 250 height = 300 style = "border:none; margin-left:40px; border-top-left-radius: 30px; border-top-right-radius: 30px"></div>
+        <div class="col"><img src = "static\assets\products\video games.png" alt = "This is an image of a Video game" width = 250 height = 300 style = "border:none; margin-left:40px; border-top-left-radius: 30px; border-top-right-radius: 30px"></div>
+      </div>
 
-        <!--Input New Entry and Detect Emotion-->
-        <div class="container-fluid" style=" min-height: 22vh;">
-            <div style=" color:black; font-family: cursive; width: 100%;">
-                <textarea class="form-control" id="text" name="text_input" rows="4" data-mdb-showcounter="true"
-                    maxlength="200" placeholder="How was your day?"></textarea>
-            </div>
+      <div class="row" style="margin-top: -20px;">
+        <div class="col"><input id="m_textbox" type = "text" placeholder = "Write your Review for Smartphones" style = "border:2px solid black ; text-align: center; border-radius: 25px; height: 100px; width: 250px; margin-left: 40px; font-size:small;"></div>
+        <div class="col"><input id="c_textbox" type = "text" placeholder = "Write your Review for Digial Cameras" style = "border:2px solid black ; text-align: center; border-radius: 25px; height: 100px; width: 250px; margin-left: 40px; font-size:small;"></div>
+        <div class="col"><input id="h_textbox" type = "text" placeholder = "Write your Review for Headphones" style = "border:2px solid black ; text-align: center; border-radius: 25px; height: 100px; width: 250px; margin-left: 40px; font-size:small;"></div>
+        <div class="col"><input id="v_textbox" type = "text" placeholder = "Write your Review for Video Games" style = "border:2px solid black ; text-align: center; border-radius: 25px; height: 100px; width: 250px; margin-left: 40px; font-size:small;"></div>
+      </div>
 
-            <div class="row mt-3">
-                <div class="col-6 text-left">
-                    <button class="btn btn-lg" id="predict_button" type="submit" name="submit_b" value="submit_p"
-                        style="color:white; background-color: #4C56AF; font-family: cursive; ">Predict
-                        Emotion</button>
-                </div>
+      <div class="row" style="margin-top:10px" align="center">
+        <div class="col"><button id="m_button" style="background-color:#F98011; color:white; font-family:monospace; width:150px; height:50px; border-radius:30px; border:none; font-size: large; font-weight: bold;">Submit</button></div>
+        <div class="col"><button id="c_button" style="background-color:#F98011; color:white; font-family:monospace; width:150px; height:50px; border-radius:30px; border:none; font-size: large; font-weight: bold;">Submit</button></div>
+        <div class="col"><button id="h_button" style="background-color:#F98011; color:white; font-family:monospace; width:150px; height:50px; border-radius:30px; border:none; font-size: large; font-weight: bold;">Submit</button></div>
+        <div class="col"><button id="v_button" style="background-color:#F98011; color:white; font-family:monospace; width:150px; height:50px; border-radius:30px; border:none; font-size: large; font-weight: bold;">Submit</button></div>
+      </div>
 
-                <div class="col-6 text-right ">
-                    <button class="btn btn-lg" id="save_button" type="submit" name="submit_b" value="submit_s"
-                        style="color:white; background-color: #4C56AF; font-family: cursive; ">Save This
-                        Entry</button>
-                </div>
-            </div>
+      <div class="row" align="center" style="margin-top: 10px;">
+        <div class="col"><button id="save_button" style="background-color:#38f911; color:white; font-family:monospace; width:150px; height:50px; border-radius:30px; border:none; font-size: large; font-weight: bold;">Save</button></div>
+      </div>
 
-        </div>
+      <div class="row" style="margin-top:10px" align="center">
+        <div class="col"><img id="m_emoji" src = "" width = 80 style="display: none;"></div>
+        <div class="col"><img id="c_emoji" src = "" width = 80 style="display: none;"></div>
+        <div class="col"><img id="h_emoji" src = "" width = 80 style="display: none;"></div>
+        <div class="col"><img id="v_emoji" src = "" width = 80 style="display: none;"></div>
+      </div>
 
-        <!--Predicted Emotion-->
-        <div class="container-fluid" id="prediction_container"
-            style="color:black; font-family: cursive; font-size:20px; min-height: 20vh;">
-            <p id="prediction" style="display: none"></p>
-            <img id="emo_img_url" src="" width="55" min-height="50" alt="" style="display: none">
-        </div>
-
-        <!--Your Entries Columns-->
-        <div class="container-fluid text-left " style="min-height: 40vh ">
-            <div class="row"
-                style="background-color: #263088; color: #FFF; font-family: cursive; font-size: larger; min-height: 4vh ">
-                <p>Your Entries :)</p>
-            </div>
-            <div class="row row-col-3"
-                style="background-color: #4C56AF; color: #000; font-family: cursive; min-height: 35vh ">
-                {% for entry in entries %}
-                <div class="col mt-2 mb-2 ml-2 mr-2 border rounded" style=" background-color: white ; min-height: 33vh">
-                    <h4>{{entry["date"]}}</h4>
-                    <p>{{entry["entry"]}}</p>
-                    <img src="{{entry['emotion_url']}}" width="55" min-height="50" alt="">
-                    <p>{{entry["emotion"]}}</p>
-                </div>
-                {% endfor %}
-            </div>
-
-            <div class="row text-right" style="background-color: #263088;min-height: 4vh ">
-            </div>
-
-        </div>
-
-        <!--Chatbot UI-->
-        <div class="chatbox">
-            <!--Chatbot Chat-->
-            <div class="chatbox__chat">
-
-                <!--Chatbot Header-->
-                <div class="row chatbox__header">
-                    <div class="col-2 chatbox__image__header">
-                        <img class="chatbox__image" src="./static/assets/chaticons/chatbot-icon.png"  width="55" height="47" alt="image">
-                    </div>
-                    <div class="col-10 chatbox__content__header">                        
-                        <p class="chatbox__description">Hi. My name is Stella. How can I help you?</p>
-                    </div>
-                </div>
-
-                <!--Chatbot Messages-->
-                <div class="row chatbox__messages__cotainer">
-                    <div class="col" id="chat_messages">
-                        <div class="user__messages">
-                            Hi!
-                            <!--User Message gets appended here-->
-                        </div>
-                        <div class="bot__messages">
-                            Hi!
-                            <!--Bot Message gets appended here-->
-                        </div>
-                    </div>
-                </div>
-                
-
-                <!--Chatbot Footer-->
-                <div class="row chatbox__footer">
-                    <div class="col-9 text-left chatbox__input">
-                        <input type="text" class="form-control" id="bot_input_text"
-                            placeholder="Type your message here...">
-                    </div>
-                    <div class="col-3 text-left chatbox__send__button">
-                        <button class="btn" id="send_button">Send</button>
-                    </div>
-                </div>
-            </div>
-
-            <!--Chatbot Button-->
-            <div class="chatbox__button">
-                <button id="open_button"></button>
-            </div>
-        </div>
+      <div class="row" align="center">
+        <div class="col"><h6 id="m_emotion" style="display: none;"></h6></div>
+        <div class="col"><h6 id="c_emotion" style="display: none;"></h6></div>
+        <div class="col"><h6 id="h_emotion" style="display: none;"></h6></div>
+        <div class="col"><h6 id="v_emotion" style="display: none;"></h6></div>
+      </div>
 
     </div>
 
-</body>
 
+    <!--CHATBOT UI-->
+    <!--Chatbot UI-->
+    <div class="chatbox">
+      <!--Chatbot Chat-->
+      <div class="chatbox__chat">
+
+          <!--Chatbot Header-->
+          <div class="row chatbox__header">
+              <div class="col-2 chatbox__image__header">
+                  <img class="chatbox__image" src="./static/assets/chaticons/chatbot-icon.png"  width="55" height="47" alt="image">
+              </div>
+              <div class="col-10 chatbox__content__header">                        
+                  <p class="chatbox__description">Hi. My name is Stella. How can I help you?</p>
+              </div>
+          </div>
+
+          <!--Chatbot Messages-->
+          <div class="row chatbox__messages__cotainer">
+              <div class="col" id="chat_messages">
+                  <div class="user__messages">
+                      Hi!
+                      <!--User Message gets appended here-->
+                  </div>
+                  <div class="bot__messages">
+                      Hi!
+                      <!--Bot Message gets appended here-->
+                  </div>
+              </div>
+          </div>
+          
+
+          <!--Chatbot Footer-->
+          <div class="row chatbox__footer">
+              <div class="col-9 text-left chatbox__input">
+                  <input type="text" class="form-control" id="bot_input_text"
+                      placeholder="Type your message here...">
+              </div>
+              <div class="col-3 text-left chatbox__send__button">
+                  <button class="btn" id="send_button">Send</button>
+              </div>
+          </div>
+      </div>
+
+      <!--Chatbot Button-->
+      <div class="chatbox__button">
+          <button id="open_button"></button>
+      </div>
+    </div>
+
+
+    <!--JS file-->
+    <script src="static\index.js"></script>
+
+  </body>
 </html>

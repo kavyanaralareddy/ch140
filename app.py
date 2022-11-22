@@ -1,64 +1,63 @@
-from flask import Flask, render_template, url_for, request, jsonify
-from model_prediction import * 
-from predict_response import *
- 
+from flask import Flask , render_template , request , jsonify
+import text_sentiment_prediction
+from predict_bot_response import *
+
 app = Flask(__name__)
 
-predicted_emotion=""
-predicted_emotion_img_url=""
-
 @app.route('/')
-def index():
-    entries = show_entry()
-    return render_template("index.html", entries=entries)
- 
-@app.route('/predict-emotion', methods=["POST"])
-def predict_emotion():
+def home():
+    return render_template('index.html')
+
+# api listening to POST requests and predicting sentiments
+@app.route('/predict' , methods = ['POST'])
+def predict():
+
+    response = ""
+    review = request.json.get('customer_review')
+    if not review:
+        response = {'status' : 'error',
+                    'message' : 'Empty Review'}
     
-    # Get Input Text from POST Request
-    input_text = request.json.get("text")  
-    
-    if not input_text:
-        # Response to send if the input_text is undefined
-        response = {
-                    "status": "error",
-                    "message": "Please enter some text to predict emotion!"
-                  }
-        return jsonify(response)
-    else:  
-        predicted_emotion, predicted_emotion_img_url = predict(input_text)
-        
-        # Response to send if the input_text is not undefined
-        response = {
-                    "status": "success",
-                    "data": {
-                            "predicted_emotion": predicted_emotion,
-                            "predicted_emotion_img_url": predicted_emotion_img_url
-                            }  
-                   }
+    else:
 
-        # Send Response         
-        return jsonify(response)
+        # calling the predict method from prediction.py module
+        sentiment , path = text_sentiment_prediction.predict(review)
+        response = {'status' : 'success',
+                    'message' : 'Got it',
+                    'sentiment' : sentiment,
+                    'path' : path}
+
+    return jsonify(response)
 
 
-@app.route("/save-entry", methods=["POST"])
-def save_entry():
+# Creating an API to save the review, user clicks on the Save button
+@app.route('/save' , methods = ['POST'])
+def save():
 
-    # Get Date, Predicted Emotion & Text Enter by the user to save the entry
-    date = request.json.get("date")           
-    emotion = request.json.get("emotion")
-    save_text = request.json.get("text")
+    # extracting date , product name , review , sentiment associated from the JSOn data
+    date = request.json.get('date')
+    product = request.json.get('product')
+    review = request.json.get('review')
+    sentiment = request.json.get('sentiment')
 
-    save_text = save_text.replace("\n", " ")
+    # creating a final variable seperated by commas
+    data_entry = date + "," + product + "," + review + "," + sentiment
 
-    # CSV Entry
-    entry = f'"{date}","{save_text}","{emotion}"\n'  
+    # open the file in the 'append' mode
+    f = open('./static/assets/datafiles/data_entry.csv' , 'a')
 
-    with open("./static/assets/data_files/data_entry.csv", "a") as f:
-        f.write(entry)
-    return jsonify("Success")
+    # Log the data in the file
+    f.write(data_entry + '\n')
+
+    # close the file
+    f.close()
+
+    # return a success message
+    return jsonify({'status' : 'success' , 
+                    'message' : 'Data Logged'})
 
 
+# writing api for chatbot
 @app.route("/bot-response", methods=["POST"])
 def bot():
     # Get User Input

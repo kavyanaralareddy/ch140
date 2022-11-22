@@ -25,7 +25,7 @@
 }
 .chatbox__header {    
     padding: 5px;
-    background: #263088;
+    background: #F98011;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     font-family: cursive;    
@@ -40,7 +40,7 @@
 /* Messages */
 .chatbox__messages__cotainer {      
     height: 300px;    
-    background: #4C56AF; 
+    background: #fddcbd; 
     opacity: 0.9;
     font-family: cursive;
     overflow-x:hidden;
@@ -79,7 +79,7 @@
 /* Footer */
 .chatbox__footer {
     padding: 10px;  
-    background: #263088;    
+    background: #F98011;    
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
@@ -99,7 +99,7 @@
     color: #FFF;
 }
 .btn{
-    color: #FFF;
+    color: rgb(0, 0, 0);
     font-family: cursive;
 }
 
@@ -116,7 +116,7 @@
     width: 40px;
     height: 40px;
     padding: 20px;    
-    background: #263088;
+    background: #F98011;
     border: none;
     outline: none;
     border-top-left-radius: 50px;
